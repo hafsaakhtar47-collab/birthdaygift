@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday 🎉</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background: linear-gradient(135deg,#ff758c,#ff7eb3);
+overflow:hidden;
+text-align:center;
+color:white;
+}
+
+.container{
+padding:20px;
+max-width:500px;
+}
+
+h1{
+font-size:3rem;
+margin-bottom:10px;
+}
+
+p{
+font-size:1.2rem;
+margin-bottom:20px;
+}
+
+button{
+padding:12px 25px;
+font-size:1rem;
+border:none;
+border-radius:30px;
+background:white;
+color:#ff4d79;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+@media(max-width:600px){
+h1{
+font-size:2.2rem;
+}
+
+p{
+font-size:1rem;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="container">
+
+<h1>🎂 Happy Birthday!</h1>
+
+<p>
+Wishing you a day filled with love, laughter and happiness.
+May all your dreams come true today and always! 🎉
+</p>
+
+<button onclick="startConfetti()">Celebrate 🎉</button>
+
+</div>
+
+<script>
+
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let confetti = [];
+
+function randomColor(){
+const colors = ["#ff0","#ff4d4d","#4dff4d","#4dd2ff","#ff66ff"];
+return colors[Math.floor(Math.random()*colors.length)];
+}
+
+function createConfetti(){
+for(let i=0;i<150;i++){
+confetti.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height - canvas.height,
+r:Math.random()*6+4,
+d:Math.random()*150,
+color:randomColor(),
+tilt:Math.floor(Math.random()*10)-10
+});
+}
+}
+
+function drawConfetti(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+for(let i=0;i<confetti.length;i++){
+let c = confetti[i];
+
+ctx.beginPath();
+ctx.fillStyle = c.color;
+ctx.fillRect(c.x,c.y,c.r,c.r);
+
+updateConfetti(c);
+}
+
+requestAnimationFrame(drawConfetti);
+}
+
+function updateConfetti(c){
+c.y += Math.cos(c.d)+3;
+c.x += Math.sin(c.d);
+
+if(c.y > canvas.height){
+c.y = -10;
+c.x = Math.random()*canvas.width;
+}
+}
+
+function startConfetti(){
+createConfetti();
+drawConfetti();
+}
+
+</script>
+
+</body>
+</html>
